@@ -19,24 +19,71 @@ class WordleSolver {
   // when a letter is part of the word, at a specific position
   letterIncludedAtPosition(letter, position) {
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => waf.word[position] === letter);
-    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
   // when a letter is part of the word, but not at a specific position
   letterIncludedNotAtPosition(letter, position) {
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => waf.word.includes(letter) && waf.word[position] !== letter);
-    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
   // when a letter is not part of the word
   letterNotIncluded(letter) {
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => !waf.word.includes(letter));
-    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
-  // TODO: how to show what guess is best?
+  // because I use this in a bunch of places
+  howManyWordsLeft() {
+    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
+    return this.possibleWordsAndFreqs.length;
+  }
+
+  // figure out the five most frequent letters in the remaining words
+  getFiveMostFrequentLetters() {
+    // figure out the frequencies
+    const letterFrequencies = {};
+    this.possibleWordsAndFreqs.forEach((waf) => {
+      Array.from(waf.word).forEach((letter) => {
+        if (letterFrequencies[letter] !== undefined) {
+          letterFrequencies[letter] += 1;
+        } else {
+          letterFrequencies[letter] = 1;
+        }
+      });
+    });
+    // then sort to find the max, and return the 5 highest
+    const sortedFreqs = Object.keys(letterFrequencies).sort((a, b) => {
+      const freqA = letterFrequencies[a] || 0;
+      const freqB = letterFrequencies[b] || 0;
+      // sort descending
+      return freqB - freqA;
+    });
+    return sortedFreqs.slice(0, 5);
+  }
+
+  // figure out which remaining word can be guessed using the input letters
+  getWordWithLetters(letters) {
+    const possibleWords = this.possibleWordsAndFreqs.filter((waf) => {
+      const word = waf.word;
+      for (let i = 0; i < letters.length; i++) {
+        if (!word.includes(letters[i])) {
+          return false;
+        }
+      }
+      return true;
+    });
+    return possibleWords;
+  }
+
+  // first attempt at how to guess these things
   showBestGuess() {
-    console.log('TODO: not yet implemented');
+    // idea: for the remaining words, figure out the five most frequent letters
+    //       then guess a word containing all of those letters
+    // TODO: handle hard mode
+    const mostFreqLetters = this.getFiveMostFrequentLetters();
+    console.log(`most frequent letters: ${mostFreqLetters.join(',')}`);
+    const possibleGuesses = this.getWordWithLetters(mostFreqLetters);
+    console.log('guesses:');
+    console.log(possibleGuesses);
   }
 }
 
@@ -56,22 +103,31 @@ function loadWordAndFreqFile() {
 // solve today's wordle
 const wordleSolver = new WordleSolver();
 
+wordleSolver.showBestGuess();
+
 wordleSolver.letterNotIncluded('f');
 wordleSolver.letterNotIncluded('l');
 wordleSolver.letterNotIncluded('u');
 wordleSolver.letterNotIncluded('t');
 wordleSolver.letterIncludedNotAtPosition('e', 4);
+wordleSolver.howManyWordsLeft();
+
+wordleSolver.showBestGuess();
 
 wordleSolver.letterNotIncluded('a');
 wordleSolver.letterNotIncluded('v');
 wordleSolver.letterNotIncluded('o');
 wordleSolver.letterNotIncluded('i');
 wordleSolver.letterNotIncluded('d');
+wordleSolver.howManyWordsLeft();
+
+wordleSolver.showBestGuess();
 
 wordleSolver.letterNotIncluded('j');
 wordleSolver.letterIncludedAtPosition('e', 1);
 wordleSolver.letterIncludedAtPosition('r', 2);
 wordleSolver.letterIncludedAtPosition('k', 3);
 wordleSolver.letterIncludedAtPosition('y', 4);
+wordleSolver.howManyWordsLeft();
 
 wordleSolver.showWords();
