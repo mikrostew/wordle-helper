@@ -8,8 +8,8 @@ const fs = require('fs');
 // first argument is location of the word file
 wordFileLocation = process.argv[2];
 
-const allWords = fs.readFileSync(wordFileLocation, 'utf8').split('\n');
-const fiveLetterWords = allWords.filter((word) => word.trim().length === 5);
+const allWords = fs.readFileSync(wordFileLocation, 'utf8').split('\n').map((word) => word.trim());
+const fiveLetterWords = allWords.filter((word) => word.length === 5);
 
 console.log(`Found ${fiveLetterWords.length} five letter words`);
 
