@@ -1,0 +1,12 @@
+{
+  "name": "wordle-solver",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:mikrostew/wordle-solver.git",
+  "author": "Michael Stewart <mikrostew@gmail.com>",
+  "license": "MIT",
+  "volta": {
+    "node": "16.13.2",
+    "yarn": "1.22.17"
+  }
+}

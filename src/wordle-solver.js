@@ -5,33 +5,33 @@ const path = require('path');
 
 class WordleSolver {
   // using an array hasn't been too slow so far, but may need to do something else eventually
-  possibleWords;
+  possibleWordsAndFreqs;
 
   constructor() {
-    this.possibleWords = loadWordFile();
+    this.possibleWordsAndFreqs = loadWordAndFreqFile();
   }
 
   // show all the words that are still possible
   showWords() {
-    console.log(this.possibleWords.join(','));
+    console.log(this.possibleWordsAndFreqs.map((waf) => waf.word).join(','));
   }
 
   // when a letter is part of the word, at a specific position
   letterIncludedAtPosition(letter, position) {
-    this.possibleWords = this.possibleWords.filter((word) => word[position] === letter);
-    console.log(`There are ${this.possibleWords.length} words left now`);
+    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => waf.word[position] === letter);
+    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
   // when a letter is part of the word, but not at a specific position
   letterIncludedNotAtPosition(letter, position) {
-    this.possibleWords = this.possibleWords.filter((word) => word.includes(letter) && word[position] !== letter);
-    console.log(`There are ${this.possibleWords.length} words left now`);
+    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => waf.word.includes(letter) && waf.word[position] !== letter);
+    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
   // when a letter is not part of the word
   letterNotIncluded(letter) {
-    this.possibleWords = this.possibleWords.filter((word) => !word.includes(letter));
-    console.log(`There are ${this.possibleWords.length} words left now`);
+    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter((waf) => !waf.word.includes(letter));
+    console.log(`There are ${this.possibleWordsAndFreqs.length} words left now`);
   }
 
   // TODO: how to show what guess is best?
@@ -40,10 +40,16 @@ class WordleSolver {
   }
 }
 
-// load the word file
-function loadWordFile() {
-  const allWords = fs.readFileSync(path.resolve(__dirname, 'five-letter-words.txt'), 'utf8').split('\n');
-  return allWords;
+// load the file containing words and frequencies
+function loadWordAndFreqFile() {
+  const allWordsAndFreqs = fs.readFileSync(path.resolve(__dirname, 'five-letter-words-and-frequencies.txt'), 'utf8').split('\n').map((line) => {
+    const wordAndFreq = line.split(',');
+    return {
+      word: wordAndFreq[0],
+      freq: wordAndFreq[1],
+    }
+  });
+  return allWordsAndFreqs;
 }
 
 
