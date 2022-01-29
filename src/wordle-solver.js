@@ -37,8 +37,9 @@ class WordleSolver {
     return this.possibleWordsAndFreqs.length;
   }
 
-  // figure out the five most frequent letters in the remaining words
-  getFiveMostFrequentLetters() {
+  // figure out the order of most frequent letters in the remaining words
+  // TODO: do this positionally
+  getMostFrequentLetters() {
     // figure out the frequencies
     const letterFrequencies = {};
     this.possibleWordsAndFreqs.forEach((waf) => {
@@ -50,38 +51,59 @@ class WordleSolver {
         }
       });
     });
-    // then sort to find the max, and return the 5 highest
+    // then sort to find the max
     const sortedFreqs = Object.keys(letterFrequencies).sort((a, b) => {
       const freqA = letterFrequencies[a] || 0;
       const freqB = letterFrequencies[b] || 0;
       // sort descending
       return freqB - freqA;
     });
-    return sortedFreqs.slice(0, 5);
+    return sortedFreqs
   }
 
-  // figure out which remaining word can be guessed using the input letters
-  getWordWithLetters(letters) {
-    const possibleWords = this.possibleWordsAndFreqs.filter((waf) => {
-      const word = waf.word;
-      for (let i = 0; i < letters.length; i++) {
-        if (!word.includes(letters[i])) {
-          return false;
+  // figure out which remaining word can be guessed using the input letter frequencies
+  getWordsWithLetters(letters, numWordsToFind) {
+    // start by using the top 5 letters,
+    // then increase number of letters until target num of words is found
+    const foundWords = {};
+    for (let useNumLetters = 5; useNumLetters <= letters.length; useNumLetters++) {
+      console.log(`trying with ${useNumLetters} letters`);
+      const possibleWords = this.possibleWordsAndFreqs.filter((waf) => {
+        const word = waf.word;
+        // filter out words that use letters outside the top ones selected
+        for (let i = useNumLetters; i < letters.length; i++) {
+          if (word.includes(letters[i])) {
+            return false;
+          }
+        }
+        return true;
+      });
+      console.log(`found ${possibleWords.length} possible words`);
+      // TODO: sort words without duplicates to the top?
+      //console.log(possibleWords);
+      // check if we found all the words yet
+      for (let w = 0; w < possibleWords.length; w++) {
+        // using more letters will cause duplicates with previous words, prevent that with a "set", of sorts
+        foundWords[possibleWords[w].word] = true;
+        if (Object.keys(foundWords).length >= numWordsToFind) {
+          return Object.keys(foundWords);
         }
       }
-      return true;
-    });
-    return possibleWords;
+    }
+
+    // found fewer than numWordsToFind
+    return Object.keys(foundWords);
   }
 
   // first attempt at how to guess these things
   showBestGuess() {
     // idea: for the remaining words, figure out the five most frequent letters
     //       then guess a word containing all of those letters
-    // TODO: handle hard mode
-    const mostFreqLetters = this.getFiveMostFrequentLetters();
-    console.log(`most frequent letters: ${mostFreqLetters.join(',')}`);
-    const possibleGuesses = this.getWordWithLetters(mostFreqLetters);
+    // TODO: does this already do hard mode?
+    const mostFreqLetters = this.getMostFrequentLetters();
+    //console.log(`most frequent letters (high to low): ${mostFreqLetters.join(',')}`);
+    // show 5 best guesses
+    const possibleGuesses = this.getWordsWithLetters(mostFreqLetters, 20);
     console.log('guesses:');
     console.log(possibleGuesses);
   }
@@ -100,34 +122,35 @@ function loadWordAndFreqFile() {
 }
 
 
-// solve today's wordle
+// TODO: some kind of CLI to help solve today's wordle
+
 const wordleSolver = new WordleSolver();
 
 wordleSolver.showBestGuess();
 
-wordleSolver.letterNotIncluded('f');
-wordleSolver.letterNotIncluded('l');
-wordleSolver.letterNotIncluded('u');
-wordleSolver.letterNotIncluded('t');
-wordleSolver.letterIncludedNotAtPosition('e', 4);
-wordleSolver.howManyWordsLeft();
-
-wordleSolver.showBestGuess();
-
 wordleSolver.letterNotIncluded('a');
-wordleSolver.letterNotIncluded('v');
-wordleSolver.letterNotIncluded('o');
-wordleSolver.letterNotIncluded('i');
-wordleSolver.letterNotIncluded('d');
+wordleSolver.letterNotIncluded('r');
+wordleSolver.letterIncludedNotAtPosition('o', 2);
+wordleSolver.letterNotIncluded('s');
+wordleSolver.letterNotIncluded('e');
 wordleSolver.howManyWordsLeft();
 
 wordleSolver.showBestGuess();
 
-wordleSolver.letterNotIncluded('j');
-wordleSolver.letterIncludedAtPosition('e', 1);
-wordleSolver.letterIncludedAtPosition('r', 2);
-wordleSolver.letterIncludedAtPosition('k', 3);
-wordleSolver.letterIncludedAtPosition('y', 4);
-wordleSolver.howManyWordsLeft();
+wordleSolver.letterNotIncluded('t');
+wordleSolver.letterIncludedAtPosition('o', 1);
+wordleSolver.letterNotIncluded('n');
+wordleSolver.letterNotIncluded('i');
+wordleSolver.letterIncludedNotAtPosition('c', 4);
 
-wordleSolver.showWords();
+wordleSolver.showBestGuess();
+
+wordleSolver.letterNotIncluded('p');
+wordleSolver.letterIncludedAtPosition('o', 1);
+wordleSolver.letterIncludedAtPosition('u', 2);
+wordleSolver.letterIncludedNotAtPosition('c', 3);
+wordleSolver.letterNotIncluded('h');
+
+wordleSolver.showBestGuess();
+
+// only one word left - could!
