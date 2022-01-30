@@ -22,17 +22,31 @@ This is stored at [five-letter-words-and-frequencies.txt](./word-lists/five-lett
 
 ## the lists that wordle actually uses
 
-From <https://www.reddit.com/r/wordle/comments/s4tcw8/a_note_on_wordles_word_list/>
+There is a [reddit post](https://www.reddit.com/r/wordle/comments/s4tcw8/a_note_on_wordles_word_list/) that found the Wordle [answers](https://gist.github.com/cfreshman/a03ef2cba789d8cf00c08f767e0fad7b) and [allowed words](https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c) from the source code.
+I downloaded both of those, to figure out if I am missing anything in my list.
 
-answers: <https://gist.github.com/cfreshman/a03ef2cba789d8cf00c08f767e0fad7b>
+Looks like I am missing 13 answers, none of which are obscure:
+```
+$ ./scripts/find-missing-words.js
+Found 15918 five letter words from 'words-alpha.txt'
+Found 39933 five letter words from 'unigram-freq.csv'
+Found 9383 five letter words from 'five-letter-words-and-frequencies.txt'
+Found 2315 five letter words from 'wordle-answers-alphabetical.txt'
+Found 10657 five letter words from 'wordle-allowed-guesses.txt'
 
-allowed words: <https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c>
+Missing 12 words from 'words-alpha.txt'
+["abled","cyber","detox","geeky","inbox","latte","nerdy","penne","pesto","ramen","rehab","wimpy"]
+Missing 1 words from 'unigram-freq.csv'
+["wooer"]
+Missing 13 words from 'five-letter-words-and-frequencies.txt'
+["abled","cyber","detox","geeky","inbox","latte","nerdy","penne","pesto","ramen","rehab","wimpy","wooer"]
+```
 
-downloaded both of those
+TODO: add those
 
 TODO: figure out:
-* what answers are not in my lists
-* what allowed words are not in my lists
+* what allowed words are not in my lists?
+* what extra words do I have?
 
 TODO: is this a difference between US and British English?
 
