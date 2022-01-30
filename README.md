@@ -1,6 +1,6 @@
-# wordle-solver
+# wordle-helper
 
-Show possible words for [wordle](https://www.powerlanguage.co.uk/wordle/) based on guesses so far.
+Show some possible words for [Wordle](https://www.powerlanguage.co.uk/wordle/), based on guesses so far.
 
 ## word list
 

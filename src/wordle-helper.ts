@@ -1,6 +1,6 @@
 import { WORDS, WordAndFreq } from './words';
 
-class WordleSolver {
+export default class WordleHelper {
   // using an array for this hasn't been too slow so far
   private possibleWordsAndFreqs: WordAndFreq[];
 
@@ -117,49 +117,3 @@ class WordleSolver {
     console.log(possibleGuesses);
   }
 }
-
-// TODO: some kind of interactive CLI, because this way is not great
-
-const wordleSolver = new WordleSolver();
-
-wordleSolver.showBestGuesses();
-
-wordleSolver.letterNotIncluded('a');
-wordleSolver.letterIncludedAtPosition('r', 1);
-wordleSolver.letterNotIncluded('o');
-wordleSolver.letterNotIncluded('s');
-wordleSolver.letterNotIncluded('e');
-wordleSolver.howManyWordsLeft();
-
-wordleSolver.showBestGuesses();
-
-wordleSolver.letterNotIncluded('t');
-wordleSolver.letterIncludedAtPosition('r', 1);
-wordleSolver.letterIncludedAtPosition('u', 2);
-wordleSolver.letterNotIncluded('l');
-wordleSolver.letterNotIncluded('y');
-wordleSolver.howManyWordsLeft();
-
-wordleSolver.showBestGuesses();
-
-wordleSolver.letterNotIncluded('c');
-wordleSolver.letterIncludedAtPosition('r', 1);
-wordleSolver.letterIncludedAtPosition('u', 2);
-wordleSolver.letterNotIncluded('m');
-wordleSolver.letterNotIncluded('b');
-wordleSolver.howManyWordsLeft();
-
-wordleSolver.showBestGuesses();
-
-wordleSolver.letterNotIncluded('d');
-wordleSolver.letterIncludedAtPosition('r', 1);
-wordleSolver.letterIncludedAtPosition('u', 2);
-wordleSolver.letterIncludedAtPosition('n', 3);
-wordleSolver.letterNotIncluded('k');
-wordleSolver.howManyWordsLeft();
-
-wordleSolver.showBestGuesses();
-
-// There are 1 words left now
-// guesses:
-// [ 'wrung' ]

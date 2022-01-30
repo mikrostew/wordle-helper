@@ -1,8 +1,8 @@
 {
-  "name": "wordle-solver",
+  "name": "wordle-helper",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "git@github.com:mikrostew/wordle-solver.git",
+  "repository": "git@github.com:mikrostew/wordle-helper.git",
   "author": "Michael Stewart <mikrostew@gmail.com>",
   "license": "MIT",
   "volta": {
@@ -23,5 +23,8 @@
   "scripts": {
     "build": "tsc --build",
     "build:watch": "tsc --build --watch"
+  },
+  "bin": {
+    "wordle-helper": "bin/cli.js"
   }
 }
