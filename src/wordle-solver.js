@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // TODO: use typescript
+// TODO: also use eslint and prettier
 
 class WordleSolver {
   // using an array hasn't been too slow so far, but may need to do something else eventually
@@ -67,7 +68,7 @@ class WordleSolver {
     // then increase number of letters until target num of words is found
     const foundWords = {};
     for (let useNumLetters = 5; useNumLetters <= letters.length; useNumLetters++) {
-      console.log(`trying with ${useNumLetters} letters`);
+      //console.log(`trying with ${useNumLetters} letters`);
       const possibleWords = this.possibleWordsAndFreqs.filter((waf) => {
         const word = waf.word;
         // filter out words that use letters outside the top ones selected
@@ -78,7 +79,7 @@ class WordleSolver {
         }
         return true;
       });
-      console.log(`found ${possibleWords.length} possible words`);
+      //console.log(`found ${possibleWords.length} possible words`);
       // TODO: sort words without duplicates to the top?
       //console.log(possibleWords);
       // check if we found all the words yet
@@ -95,8 +96,8 @@ class WordleSolver {
     return Object.keys(foundWords);
   }
 
-  // first attempt at how to guess these things
-  showBestGuess() {
+  // show suggestions that work, in order of frequency
+  showBestGuesses() {
     // idea: for the remaining words, figure out the five most frequent letters
     //       then guess a word containing all of those letters
     // TODO: does this already do hard mode?
@@ -104,7 +105,7 @@ class WordleSolver {
     //console.log(`most frequent letters (high to low): ${mostFreqLetters.join(',')}`);
     // show 5 best guesses
     const possibleGuesses = this.getWordsWithLetters(mostFreqLetters, 20);
-    console.log('guesses:');
+    console.log('some guesses:');
     console.log(possibleGuesses);
   }
 }
@@ -122,35 +123,48 @@ function loadWordAndFreqFile() {
 }
 
 
-// TODO: some kind of CLI to help solve today's wordle
+// TODO: some kind of interactive CLI, because this way is not great
 
 const wordleSolver = new WordleSolver();
 
-wordleSolver.showBestGuess();
+wordleSolver.showBestGuesses();
 
 wordleSolver.letterNotIncluded('a');
-wordleSolver.letterNotIncluded('r');
-wordleSolver.letterIncludedNotAtPosition('o', 2);
+wordleSolver.letterIncludedAtPosition('r', 1);
+wordleSolver.letterNotIncluded('o');
 wordleSolver.letterNotIncluded('s');
 wordleSolver.letterNotIncluded('e');
 wordleSolver.howManyWordsLeft();
 
-wordleSolver.showBestGuess();
+wordleSolver.showBestGuesses();
 
 wordleSolver.letterNotIncluded('t');
-wordleSolver.letterIncludedAtPosition('o', 1);
-wordleSolver.letterNotIncluded('n');
-wordleSolver.letterNotIncluded('i');
-wordleSolver.letterIncludedNotAtPosition('c', 4);
-
-wordleSolver.showBestGuess();
-
-wordleSolver.letterNotIncluded('p');
-wordleSolver.letterIncludedAtPosition('o', 1);
+wordleSolver.letterIncludedAtPosition('r', 1);
 wordleSolver.letterIncludedAtPosition('u', 2);
-wordleSolver.letterIncludedNotAtPosition('c', 3);
-wordleSolver.letterNotIncluded('h');
+wordleSolver.letterNotIncluded('l');
+wordleSolver.letterNotIncluded('y');
+wordleSolver.howManyWordsLeft();
 
-wordleSolver.showBestGuess();
+wordleSolver.showBestGuesses();
 
-// only one word left - could!
+wordleSolver.letterNotIncluded('c');
+wordleSolver.letterIncludedAtPosition('r', 1);
+wordleSolver.letterIncludedAtPosition('u', 2);
+wordleSolver.letterNotIncluded('m');
+wordleSolver.letterNotIncluded('b');
+wordleSolver.howManyWordsLeft();
+
+wordleSolver.showBestGuesses();
+
+wordleSolver.letterNotIncluded('d');
+wordleSolver.letterIncludedAtPosition('r', 1);
+wordleSolver.letterIncludedAtPosition('u', 2);
+wordleSolver.letterIncludedAtPosition('n', 3);
+wordleSolver.letterNotIncluded('k');
+wordleSolver.howManyWordsLeft();
+
+wordleSolver.showBestGuesses();
+
+// There are 1 words left now
+// guesses:
+// [ 'wrung' ]
