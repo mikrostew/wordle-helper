@@ -3741,6 +3741,10 @@ export const WORDS = [
     "freq": 9298184
   },
   {
+    "word": "cyber",
+    "freq": 9289150
+  },
+  {
     "word": "clone",
     "freq": 9284578
   },
@@ -4621,6 +4625,10 @@ export const WORDS = [
     "freq": 6461201
   },
   {
+    "word": "rehab",
+    "freq": 6460331
+  },
+  {
     "word": "merit",
     "freq": 6450895
   },
@@ -4891,6 +4899,10 @@ export const WORDS = [
   {
     "word": "swift",
     "freq": 5850031
+  },
+  {
+    "word": "inbox",
+    "freq": 5845223
   },
   {
     "word": "focal",
@@ -7811,6 +7823,10 @@ export const WORDS = [
   {
     "word": "fauna",
     "freq": 2298940
+  },
+  {
+    "word": "detox",
+    "freq": 2297343
   },
   {
     "word": "spurs",
@@ -11097,6 +11113,10 @@ export const WORDS = [
     "freq": 989351
   },
   {
+    "word": "geeky",
+    "freq": 987806
+  },
+  {
     "word": "haunt",
     "freq": 985188
   },
@@ -12107,6 +12127,10 @@ export const WORDS = [
   {
     "word": "bower",
     "freq": 783946
+  },
+  {
+    "word": "latte",
+    "freq": 783412
   },
   {
     "word": "salud",
@@ -14113,6 +14137,10 @@ export const WORDS = [
     "freq": 522200
   },
   {
+    "word": "pesto",
+    "freq": 521625
+  },
+  {
     "word": "tanto",
     "freq": 521483
   },
@@ -15109,6 +15137,10 @@ export const WORDS = [
     "freq": 431387
   },
   {
+    "word": "nerdy",
+    "freq": 431324
+  },
+  {
     "word": "artic",
     "freq": 431117
   },
@@ -15537,6 +15569,10 @@ export const WORDS = [
     "freq": 400063
   },
   {
+    "word": "penne",
+    "freq": 400010
+  },
+  {
     "word": "corse",
     "freq": 400005
   },
@@ -15947,6 +15983,10 @@ export const WORDS = [
   {
     "word": "swede",
     "freq": 373827
+  },
+  {
+    "word": "ramen",
+    "freq": 373754
   },
   {
     "word": "glows",
@@ -17971,6 +18011,10 @@ export const WORDS = [
   {
     "word": "holed",
     "freq": 259059
+  },
+  {
+    "word": "wimpy",
+    "freq": 258895
   },
   {
     "word": "snout",
@@ -22391,6 +22435,10 @@ export const WORDS = [
   {
     "word": "ostia",
     "freq": 122493
+  },
+  {
+    "word": "abled",
+    "freq": 122479
   },
   {
     "word": "stoma",
@@ -37535,5 +37583,9 @@ export const WORDS = [
   {
     "word": "toits",
     "freq": 12716
+  },
+  {
+    "word": "wooer",
+    "freq": 100000
   }
 ];

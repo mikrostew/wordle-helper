@@ -932,6 +932,7 @@ tommy,9327874
 brake,9321885
 congo,9310976
 olive,9298184
+cyber,9289150
 clone,9284578
 dicks,9280692
 relay,9275052
@@ -1152,6 +1153,7 @@ slope,6469975
 nails,6463889
 whats,6462263
 rides,6461201
+rehab,6460331
 merit,6450895
 disks,6445126
 condo,6444848
@@ -1220,6 +1222,7 @@ ozone,5865280
 pasta,5855460
 serum,5854942
 swift,5850031
+inbox,5845223
 focal,5844761
 samba,5838327
 wound,5820050
@@ -1950,6 +1953,7 @@ mover,2309084
 erica,2307054
 betsy,2299580
 fauna,2298940
+detox,2297343
 spurs,2295629
 ortho,2295530
 eliza,2292065
@@ -2771,6 +2775,7 @@ corso,993128
 abbot,992552
 magma,992528
 arson,989351
+geeky,987806
 haunt,985188
 fuses,984514
 britt,984387
@@ -3024,6 +3029,7 @@ cleft,787981
 groin,784476
 allie,784184
 bower,783946
+latte,783412
 salud,782447
 longs,782210
 repro,782095
@@ -3525,6 +3531,7 @@ merci,524151
 booms,524101
 swipe,524034
 clays,522200
+pesto,521625
 tanto,521483
 lubes,520715
 parti,520451
@@ -3774,6 +3781,7 @@ senna,431701
 leben,431631
 spelt,431427
 barks,431387
+nerdy,431324
 artic,431117
 karoo,430707
 knelt,429464
@@ -3881,6 +3889,7 @@ fugue,400733
 speer,400248
 hoary,400092
 engin,400063
+penne,400010
 corse,400005
 ronde,399731
 purim,398461
@@ -3984,6 +3993,7 @@ meeks,374262
 nappa,374107
 beset,373969
 swede,373827
+ramen,373754
 glows,372911
 ladle,372653
 pinks,372544
@@ -4490,6 +4500,7 @@ spong,259708
 guava,259541
 clade,259453
 holed,259059
+wimpy,258895
 snout,258314
 actos,258309
 bigot,258267
@@ -5595,6 +5606,7 @@ veuve,122988
 scabs,122925
 lovey,122861
 ostia,122493
+abled,122479
 stoma,122408
 ately,122316
 ronni,122298
@@ -9381,3 +9393,4 @@ fleta,12727
 addnl,12725
 intil,12721
 toits,12716
+wooer,100000

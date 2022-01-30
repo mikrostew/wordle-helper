@@ -1,14 +1,15 @@
 #!/usr/bin/env node
+/* eslint-disable no-sync */
+
 const fs = require('fs');
 const path = require('path');
 
+const COMBINED_FILE_LOCATION = path.resolve(__dirname, '../word-lists/five-letter-words-and-frequencies.txt');
+const OUTPUT_FILE_LOCATION = path.resolve(__dirname, '../src/words.ts');
+
 // inline these words so I don't have to use fs
 // load the file containing words and frequencies
-const allWordsAndFreqs = fs
-  .readFileSync(
-    path.resolve(__dirname, '../src/five-letter-words-and-frequencies.txt'),
-    'utf8',
-  );
+const allWordsAndFreqs = fs.readFileSync(COMBINED_FILE_LOCATION, 'utf8');
 const parsedWordsAndFreqs = allWordsAndFreqs
   .split('\n')
   .map((line) => {
@@ -27,8 +28,4 @@ const fileContents
 
 export const WORDS = ${JSON.stringify(parsedWordsAndFreqs, null, 2)};`;
 
-fs.writeFileSync(
-  path.resolve(__dirname, '../src/words.ts'),
-  fileContents,
-  'utf8',
-);
+fs.writeFileSync(OUTPUT_FILE_LOCATION, fileContents, 'utf8');
