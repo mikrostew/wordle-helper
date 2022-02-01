@@ -6,43 +6,26 @@ export function run() {
 
   wordleHelper.showBestGuesses();
 
-  wordleHelper.letterNotIncluded('a');
-  wordleHelper.letterIncludedAtPosition('r', 1);
-  wordleHelper.letterNotIncluded('o');
   wordleHelper.letterNotIncluded('s');
+  wordleHelper.letterNotIncluded('a');
+  wordleHelper.letterIncludedNotAtPosition('l', 2);
   wordleHelper.letterNotIncluded('e');
+  wordleHelper.letterIncludedAtPosition('t', 4);
   wordleHelper.howManyWordsLeft();
 
   wordleHelper.showBestGuesses();
 
-  wordleHelper.letterNotIncluded('t');
-  wordleHelper.letterIncludedAtPosition('r', 1);
-  wordleHelper.letterIncludedAtPosition('u', 2);
-  wordleHelper.letterNotIncluded('l');
-  wordleHelper.letterNotIncluded('y');
-  wordleHelper.howManyWordsLeft();
-
-  wordleHelper.showBestGuesses();
-
-  wordleHelper.letterNotIncluded('c');
-  wordleHelper.letterIncludedAtPosition('r', 1);
-  wordleHelper.letterIncludedAtPosition('u', 2);
-  wordleHelper.letterNotIncluded('m');
   wordleHelper.letterNotIncluded('b');
+  wordleHelper.letterNotIncluded('u');
+  wordleHelper.letterIncludedNotAtPosition('i', 2);
+  wordleHelper.letterIncludedNotAtPosition('l', 3);
+  wordleHelper.letterIncludedAtPosition('t', 4);
   wordleHelper.howManyWordsLeft();
 
   wordleHelper.showBestGuesses();
 
-  wordleHelper.letterNotIncluded('d');
-  wordleHelper.letterIncludedAtPosition('r', 1);
-  wordleHelper.letterIncludedAtPosition('u', 2);
-  wordleHelper.letterIncludedAtPosition('n', 3);
-  wordleHelper.letterNotIncluded('k');
-  wordleHelper.howManyWordsLeft();
-
-  wordleHelper.showBestGuesses();
-
-  // There are 1 words left now
-  // guesses:
-  // [ 'wrung' ]
+  // There are 4 words left now
+  // some guesses:
+  // [ 'licht', 'licit', 'light', 'limit' ]
+  // 'light' is the word!
 }
