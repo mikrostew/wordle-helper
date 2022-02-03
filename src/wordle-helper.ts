@@ -88,11 +88,12 @@ export default class WordleHelper {
         return true;
       });
       // console.log(`found ${possibleWords.length} possible words`);
-      // TODO: sort words without duplicate letters to the top
+      // TODO: sort words without duplicate letters to the top (can use a Set probably)
       // console.log(possibleWords);
       // check if we found all the words yet
       for (let w = 0; w < possibleWords.length; w++) {
         // using more letters will cause duplicates with previous words, prevent that with a "set", of sorts
+        // TODO: use Set() instead
         foundWords[possibleWords[w].word] = true;
         if (Object.keys(foundWords).length >= numWordsToFind) {
           return Object.keys(foundWords);
@@ -105,7 +106,7 @@ export default class WordleHelper {
   }
 
   // show suggestions that work, in order of frequency
-  showBestGuesses() {
+  bestGuesses(): string[] {
     // idea: for the remaining words, figure out the five most frequent letters
     //       then guess a word containing all of those letters
     // TODO: does this already do hard mode?
@@ -113,7 +114,8 @@ export default class WordleHelper {
     // console.log(`most frequent letters (high to low): ${mostFreqLetters.join(',')}`);
     // show 5 best guesses
     const possibleGuesses = this.getWordsWithLetters(mostFreqLetters, 20);
-    console.log('some guesses:');
-    console.log(possibleGuesses);
+    // console.log('some guesses:');
+    // console.log(possibleGuesses);
+    return possibleGuesses;
   }
 }
