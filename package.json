@@ -30,6 +30,7 @@
     "wordle-helper": "bin/wordle-helper"
   },
   "dependencies": {
+    "chalk": "^4",
     "inquirer": "^8.2.0",
     "yargs": "^17.3.1"
   }
