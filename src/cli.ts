@@ -15,6 +15,7 @@ export async function run(rawArgs: string[]): Promise<void> {
         describe: 'show more info about what is going on',
       },
     })
+    // TODO: option for --mode=total|positional (default is positional)
     .showHelpOnFail(false)
     .wrap(yargs().terminalWidth())
     .help()
@@ -22,10 +23,10 @@ export async function run(rawArgs: string[]): Promise<void> {
     .strictCommands()
     .parse(rawArgs);
 
-  const verbose = parsedArgs.verbose;
+  const verbose = Boolean(parsedArgs.verbose);
 
   // let's solve this thing
-  const wordleHelper = new WordleHelper();
+  const wordleHelper = new WordleHelper(verbose);
   // keep track of what has been found, to avoid repetitive prompts
   const foundLetters = ['', '', '', '', ''];
 
