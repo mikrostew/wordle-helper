@@ -1,4 +1,4 @@
-import WordleHelper from './wordle-helper';
+import { WordGuess, WordleHelper } from './wordle-helper';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import yargs from 'yargs/yargs';
@@ -59,6 +59,8 @@ export async function run(rawArgs: string[]): Promise<void> {
       console.log('guess:', guess);
     }
 
+    const wordGuess: WordGuess = [];
+
     for (let i = 0; i < guess.word.length; i++) {
       const letter = guess.word[i];
       const formatted = formatLetter(letter);
@@ -66,6 +68,10 @@ export async function run(rawArgs: string[]): Promise<void> {
         // spaced to line up nicely under the other letters
         console.log(`  (already found letter)            ${formatted.green}`);
         guessWords[guessNumber] += ` ${formatted.green}`;
+        wordGuess[i] = {
+          letter,
+          color: 'green',
+        };
         continue;
       }
       const letterStatus = await inquirer.prompt([{
@@ -81,15 +87,24 @@ export async function run(rawArgs: string[]): Promise<void> {
       const statusText = letterStatus.status;
       switch (true) {
       case /gray/.test(statusText):
-        wordleHelper.letterNotIncluded(letter);
+        wordGuess[i] = {
+          letter,
+          color: 'gray',
+        };
         guessWords[guessNumber] += ` ${formatted.gray}`;
         break;
       case /yellow/.test(statusText):
-        wordleHelper.letterIncludedNotAtPosition(letter, i);
+        wordGuess[i] = {
+          letter,
+          color: 'yellow',
+        };
         guessWords[guessNumber] += ` ${formatted.yellow}`;
         break;
       case /green/.test(statusText):
-        wordleHelper.letterIncludedAtPosition(letter, i);
+        wordGuess[i] = {
+          letter,
+          color: 'green',
+        };
         foundLetters[i] = letter;
         guessWords[guessNumber] += ` ${formatted.green}`;
         break;
@@ -106,6 +121,8 @@ export async function run(rawArgs: string[]): Promise<void> {
       console.log(guessWords.filter((line) => line !== '').join('\n\n'));
       process.exit();
     }
+    // register this guess, so the word suggestions will be updated
+    wordleHelper.registerGuess(wordGuess);
   }
   console.log('Didn\'t find the answer :(');
 }

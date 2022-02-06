@@ -9,8 +9,18 @@ interface ScoredWord {
   score: number;
 }
 
-export default class WordleHelper {
+type LetterColor = 'green' | 'yellow' | 'gray';
+
+interface LetterStatus {
+  letter: string;
+  color: LetterColor;
+}
+
+export type WordGuess = LetterStatus[];
+
+export class WordleHelper {
   // using an array for this hasn't been too slow so far
+  // TODO: I don't actually use the frequencies for anything, so maybe just array of words?
   private possibleWordsAndFreqs: WordAndFreq[];
   private verbose: boolean;
 
@@ -22,43 +32,64 @@ export default class WordleHelper {
     this.possibleWordsAndFreqs = possibleWordsAndFreqs;
   }
 
-  // show all the words that are still possible
-  showWords() {
-    console.log(this.possibleWordsAndFreqs.map((waf) => waf.word).join(','));
+  // return all the words that are still possible
+  possibleWords(): string[] {
+    return this.possibleWordsAndFreqs.map((waf) => waf.word);
   }
 
-  // TODO: change API to green(), yellow(), gray(), instead of these
+  // return the number of words that are still possible
+  numWordsLeft(): number {
+    return this.possibleWordsAndFreqs.length;
+  }
 
-  // when a letter is part of the word, at a specific position
-  letterIncludedAtPosition(letter: string, position: number) {
+  registerGuess(wordGuess: WordGuess) {
+    if (wordGuess.length !== 5) {
+      throw new Error(`Word guess must be 5 letters long, received ${wordGuess.length} letters`);
+    }
+    for (let position = 0; position < wordGuess.length; position++) {
+      const { letter, color } = wordGuess[position];
+      switch (color) {
+      case 'green':
+        this.green(letter, position);
+        break;
+      case 'yellow':
+        this.yellow(letter, position);
+        break;
+      case 'gray':
+        this.gray(letter, position);
+        break;
+      default:
+        console.log(`bad color input - ${color}`);
+      }
+    }
+  }
+
+  // TODO: track what letters are included, error for bad inputs based on that
+
+  // green: when a letter is part of the word, at a specific position
+  private green(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
       (waf) => waf.word[position] === lowercase,
     );
   }
 
-  // when a letter is part of the word, but not at a specific position
-  letterIncludedNotAtPosition(letter: string, position: number) {
+  // yellow: when a letter is part of the word, but is not at the specified position
+  private yellow(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
       (waf) => waf.word.includes(lowercase) && waf.word[position] !== lowercase,
     );
   }
 
-  // when a letter is not part of the word
-  letterNotIncluded(letter: string) {
+  // gray happens when:
+  // * the letter is not part of the word at all
+  // * the letter is not duplicated (e.g. one 'e' is yellow, another 'e' in the same guess is gray --> there is only one 'e')
+  private gray(letter: string, _position: number) {
     const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
       (waf) => !waf.word.includes(lowercase),
     );
-  }
-
-  // because I use this in a bunch of places
-  howManyWordsLeft() {
-    console.log(
-      `There are ${this.possibleWordsAndFreqs.length} words left now`,
-    );
-    return this.possibleWordsAndFreqs.length;
   }
 
   // figure out the order of most frequent letters in the remaining words
