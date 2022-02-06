@@ -27,24 +27,29 @@ export default class WordleHelper {
     console.log(this.possibleWordsAndFreqs.map((waf) => waf.word).join(','));
   }
 
+  // TODO: change API to green(), yellow(), gray(), instead of these
+
   // when a letter is part of the word, at a specific position
   letterIncludedAtPosition(letter: string, position: number) {
+    const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => waf.word[position] === letter,
+      (waf) => waf.word[position] === lowercase,
     );
   }
 
   // when a letter is part of the word, but not at a specific position
   letterIncludedNotAtPosition(letter: string, position: number) {
+    const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => waf.word.includes(letter) && waf.word[position] !== letter,
+      (waf) => waf.word.includes(lowercase) && waf.word[position] !== lowercase,
     );
   }
 
   // when a letter is not part of the word
   letterNotIncluded(letter: string) {
+    const lowercase = letter.toLowerCase();
     this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => !waf.word.includes(letter),
+      (waf) => !waf.word.includes(lowercase),
     );
   }
 
