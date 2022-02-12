@@ -1,4 +1,4 @@
-import { WORDS, WordAndFreq } from './words';
+import { WORDS } from './words';
 
 interface LetterFrequency {
   [letter: string]: number;
@@ -20,26 +20,25 @@ export type WordGuess = LetterStatus[];
 
 export class WordleHelper {
   // using an array for this hasn't been too slow so far
-  // TODO: I don't actually use the frequencies for anything, so maybe just array of words?
-  private possibleWordsAndFreqs: WordAndFreq[];
+  private possibleWords: string[];
   private verbose: boolean;
 
   constructor(
     verbose: boolean,
-    possibleWordsAndFreqs: WordAndFreq[] = WORDS,
+    possibleWords: string[] = WORDS,
   ) {
     this.verbose = verbose;
-    this.possibleWordsAndFreqs = possibleWordsAndFreqs;
+    this.possibleWords = possibleWords;
   }
 
   // return all the words that are still possible
-  possibleWords(): string[] {
-    return this.possibleWordsAndFreqs.map((waf) => waf.word);
+  getPossibleWords(): string[] {
+    return this.possibleWords;
   }
 
   // return the number of words that are still possible
   numWordsLeft(): number {
-    return this.possibleWordsAndFreqs.length;
+    return this.possibleWords.length;
   }
 
   registerGuess(wordGuess: WordGuess) {
@@ -69,16 +68,16 @@ export class WordleHelper {
   // green: when a letter is part of the word, at a specific position
   private green(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
-    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => waf.word[position] === lowercase,
+    this.possibleWords = this.possibleWords.filter(
+      (word) => word[position] === lowercase,
     );
   }
 
   // yellow: when a letter is part of the word, but is not at the specified position
   private yellow(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
-    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => waf.word.includes(lowercase) && waf.word[position] !== lowercase,
+    this.possibleWords = this.possibleWords.filter(
+      (word) => word.includes(lowercase) && word[position] !== lowercase,
     );
   }
 
@@ -87,8 +86,8 @@ export class WordleHelper {
   // * the letter is not duplicated (e.g. one 'e' is yellow, another 'e' in the same guess is gray --> there is only one 'e')
   private gray(letter: string, _position: number) {
     const lowercase = letter.toLowerCase();
-    this.possibleWordsAndFreqs = this.possibleWordsAndFreqs.filter(
-      (waf) => !waf.word.includes(lowercase),
+    this.possibleWords = this.possibleWords.filter(
+      (word) => !word.includes(lowercase),
     );
   }
 
@@ -96,8 +95,8 @@ export class WordleHelper {
   getMostFrequentLetters() {
     // figure out the frequencies
     const letterFrequencies: { [key: string]: number } = {};
-    this.possibleWordsAndFreqs.forEach((waf) => {
-      Array.from(waf.word).forEach((letter) => {
+    this.possibleWords.forEach((word) => {
+      Array.from(word).forEach((letter) => {
         if (letterFrequencies[letter] !== undefined) {
           letterFrequencies[letter] += 1;
         } else {
@@ -127,8 +126,7 @@ export class WordleHelper {
       useNumLetters++
     ) {
       // console.log(`trying with ${useNumLetters} letters`);
-      const possibleWords = this.possibleWordsAndFreqs.filter((waf) => {
-        const word = waf.word;
+      const possibleWords = this.possibleWords.filter((word) => {
         // filter out words that use letters outside the top ones selected
         for (let i = useNumLetters; i < letters.length; i++) {
           if (word.includes(letters[i])) {
@@ -145,7 +143,7 @@ export class WordleHelper {
       // check if we found all the words yet
       for (let w = 0; w < possibleWords.length; w++) {
         // using more letters will cause duplicates with previous words, prevent that with a set
-        foundWords.add(possibleWords[w].word);
+        foundWords.add(possibleWords[w]);
         if (foundWords.size >= numWordsToFind) {
           return Array.from(foundWords);
         }
@@ -188,8 +186,8 @@ export class WordleHelper {
       y: 0,
       z: 0,
     });
-    this.possibleWordsAndFreqs.forEach((waf) => {
-      const letters = Array.from(waf.word);
+    this.possibleWords.forEach((word) => {
+      const letters = Array.from(word);
       for (let position = 0; position < letters.length; position++) {
         const letter = letters[position];
         positionalFrequencies[position][letter] += 1;
@@ -200,15 +198,15 @@ export class WordleHelper {
 
   getWordsByPositionalFreq(positionalFrequencies: LetterFrequency[], numWordsToFind: number): string[] {
     // iterate all remaining words, giving each a score
-    const scoredWords: ScoredWord[] = this.possibleWordsAndFreqs.map((waf) => {
-      const letters = Array.from(waf.word);
+    const scoredWords: ScoredWord[] = this.possibleWords.map((word) => {
+      const letters = Array.from(word);
       let score = 0;
       for (let position = 0; position < letters.length; position++) {
         const letter = letters[position];
         score += positionalFrequencies[position][letter];
       }
       return {
-        word: waf.word,
+        word,
         score,
       };
     });
