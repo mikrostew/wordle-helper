@@ -36,6 +36,7 @@ export async function run(rawArgs: string[]): Promise<void> {
   // keep track of what has been found, to avoid repetitive prompts
   const foundLetters = ['', '', '', '', ''];
   const guessWords = ['', '', '', '', '', ''];
+  const guessPositions = ['1st', '2nd', '3rd', '4th', '5th', '6th'];
 
   // limit of 6 guesses
   for (let guessNumber = 0; guessNumber < 6; guessNumber++) {
@@ -46,7 +47,7 @@ export async function run(rawArgs: string[]): Promise<void> {
     const guess: { word: string } = await inquirer.prompt([{
       type: 'input',
       name: 'word',
-      message: `What's your guess for word number ${guessNumber + 1}?`,
+      message: `What was your ${guessPositions[guessNumber]} guess?`,
       transformer: (input) => input.toUpperCase(),
       validate: (input) => {
         if (/[a-zA-Z]{5}/.test(input)) {
@@ -66,7 +67,7 @@ export async function run(rawArgs: string[]): Promise<void> {
       const formatted = formatLetter(letter);
       if (letter === foundLetters[i]) {
         // spaced to line up nicely under the other letters
-        console.log(`  (already found letter)            ${formatted.green}`);
+        console.log(`  (already found letter)    ${formatted.green}`);
         guessWords[guessNumber] += ` ${formatted.green}`;
         wordGuess[i] = {
           letter,
@@ -77,11 +78,11 @@ export async function run(rawArgs: string[]): Promise<void> {
       const letterStatus = await inquirer.prompt([{
         type: 'list',
         name: 'status',
-        message: `What is the status of letter '${letter.toUpperCase()}'?`,
+        message: `What color is letter '${letter.toUpperCase()}'?`,
         choices: [
-          `${formatted.gray} (gray)   Not in the word`,
-          `${formatted.yellow} (yellow) Right letter, wrong spot`,
-          `${formatted.green} (green)  Right letter, right spot`,
+          `${formatted.gray} (gray)`,
+          `${formatted.yellow} (yellow)`,
+          `${formatted.green} (green)`,
         ],
       }]);
       const statusText = letterStatus.status;
