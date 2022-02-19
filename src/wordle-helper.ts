@@ -9,7 +9,7 @@ interface ScoredWord {
   score: number;
 }
 
-type LetterColor = 'green' | 'yellow' | 'gray';
+export type LetterColor = 'green' | 'yellow' | 'gray';
 
 interface LetterStatus {
   letter: string;
