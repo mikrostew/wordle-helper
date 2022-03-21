@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-sync */
 
-
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
@@ -64,6 +63,10 @@ function extractWordLists(scriptContents) {
   const scriptContents = await downloadFile(`${WORDLE_BASE_URL}/${scriptFile}`);
   const wordLists = extractWordLists(scriptContents);
   console.log(`Found ${wordLists.length} word lists, with ${wordLists[0].length} words and ${wordLists[1].length} words in them`);
+
+  // for debugging - write the lists to files
+  //fs.writeFileSync(path.resolve(__dirname, 'debug-list-1.json'), JSON.stringify(wordLists[0], null, 2), 'utf8');
+  //fs.writeFileSync(path.resolve(__dirname, 'debug-list-2.json'), JSON.stringify(wordLists[1], null, 2), 'utf8');
 
   // remove any duplicates and sort
   const uniques = [...new Set(wordLists[0].concat(wordLists[1]))];
