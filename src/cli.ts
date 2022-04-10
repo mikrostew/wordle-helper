@@ -42,7 +42,7 @@ export async function run(rawArgs: string[]): Promise<void> {
   for (let guessNumber = 0; guessNumber < 6; guessNumber++) {
     const suggestions = wordleHelper.bestGuesses();
     console.log('suggestions:');
-    console.log(suggestions.join(' ,'));
+    console.log(suggestions.join(', '));
 
     const guess: { word: string } = await inquirer.prompt([{
       type: 'input',
