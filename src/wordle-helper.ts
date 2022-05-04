@@ -21,6 +21,7 @@ export type WordGuess = LetterStatus[];
 export class WordleHelper {
   // using an array for this hasn't been too slow so far
   private possibleWords: string[];
+  private lettersGuessed: LetterStatus[][];
   private verbose: boolean;
 
   constructor(
@@ -29,6 +30,7 @@ export class WordleHelper {
   ) {
     this.verbose = verbose;
     this.possibleWords = possibleWords;
+    this.lettersGuessed = [];
   }
 
   // return all the words that are still possible
@@ -63,11 +65,29 @@ export class WordleHelper {
     }
   }
 
-  // TODO: track what letters are included, error for bad inputs based on that
+  // track what letters are included, error for conflicting inputs
+  addGuessedLetter(letter: string, position: number, color: LetterColor) {
+    if (this.lettersGuessed[position]) {
+      // already have some guesses here
+      // TODO: have to check for conflicts & logic issues first
+      if (color === 'green') {
+        if (this.lettersGuessed[position].some((e) => e.color === 'green' && e.letter !== letter )) {
+          throw new Error(`Position ${position} is already green with a different letter`);
+        }
+      }
+      this.lettersGuessed[position].push({ letter, color });
+    } else {
+      // no guesses for this position yet
+      // TODO: have to check for conflicts & logic issues first
+      this.lettersGuessed[position] = [];
+      this.lettersGuessed[position].push({ letter, color });
+    }
+  }
 
   // green: when a letter is part of the word, at a specific position
   green(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
+    this.addGuessedLetter(lowercase, position, 'green');
     this.possibleWords = this.possibleWords.filter(
       (word) => word[position] === lowercase,
     );
@@ -76,6 +96,7 @@ export class WordleHelper {
   // yellow: when a letter is part of the word, but is not at the specified position
   yellow(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
+    this.addGuessedLetter(lowercase, position, 'yellow');
     this.possibleWords = this.possibleWords.filter(
       (word) => word.includes(lowercase) && word[position] !== lowercase,
     );
@@ -84,8 +105,9 @@ export class WordleHelper {
   // gray happens when:
   // * the letter is not part of the word at all
   // * the letter is not duplicated (e.g. one 'e' is yellow, another 'e' in the same guess is gray --> there is only one 'e')
-  gray(letter: string, _position: number) {
+  gray(letter: string, position: number) {
     const lowercase = letter.toLowerCase();
+    this.addGuessedLetter(lowercase, position, 'gray');
     this.possibleWords = this.possibleWords.filter(
       (word) => !word.includes(lowercase),
     );

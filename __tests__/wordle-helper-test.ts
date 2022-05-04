@@ -45,6 +45,15 @@ describe('@registerGuess', () => {
   // TODO: more complicated tests of this
 });
 
+describe('@addGuessedLetter', () => {
+  test.skip('TODO', () => {
+    //const testWordleHelper = new WordleHelper(false, ['word1', 'word2']);
+    expect(1).toEqual(1);
+  });
+
+  // TODO: more complicated tests of this
+});
+
 describe('@green', () => {
   test('filters matching words', () => {
     const testWordleHelper = new WordleHelper(false, TEST_WORDS_1);
@@ -60,5 +69,15 @@ describe('@green', () => {
     expect(testWordleHelper.getPossibleWords()).toEqual(['envoy']);
   });
 
-  // TODO: error for conflict
+  test('errors for conflicting letters', () => {
+    const testWordleHelper = new WordleHelper(false, TEST_WORDS_1);
+
+    testWordleHelper.green('o', 1);
+    expect(testWordleHelper.getPossibleWords()).toEqual([
+      'bolts',
+      'comfy',
+    ]);
+
+    expect(() => testWordleHelper.green('y', 1)).toThrow('Position 1 is already green with a different letter');
+  });
 });
