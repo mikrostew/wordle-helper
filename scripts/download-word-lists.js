@@ -21,7 +21,9 @@ async function downloadFile(url) {
 // looking for something like this in the page:
 // <script src="main.da722f54.js"></script>
 function findScriptFile(indexHtmlContents) {
-  const regexMatches = /<script src="(.*\.js)"><\/script>/.exec(indexHtmlContents);
+  // this is not how they include the script anymore
+  //const regexMatches = /<script src="(.*\.js)"><\/script>/.exec(indexHtmlContents);
+  const regexMatches = /src="(https:\/\/www\.nytimes\.com\/games-assets\/v2\/wordle\.[a-zA-Z0-9]*\.js)"/.exec(indexHtmlContents);
   if (regexMatches && regexMatches[1]) {
     return regexMatches[1];
   }
@@ -60,7 +62,7 @@ function extractWordLists(scriptContents) {
   console.log(`Script file is: ${scriptFile}`);
 
   // pull down the script file, and figure out the word lists
-  const scriptContents = await downloadFile(`${WORDLE_BASE_URL}/${scriptFile}`);
+  const scriptContents = await downloadFile(scriptFile);
   const wordLists = extractWordLists(scriptContents);
   console.log(`Found ${wordLists.length} word lists, with ${wordLists[0].length} words and ${wordLists[1].length} words in them`);
 
