@@ -69,6 +69,19 @@ describe('@green', () => {
     expect(testWordleHelper.getPossibleWords()).toEqual(['envoy']);
   });
 
+  test.skip('previous gray of the same letter', () => {
+    const testWordleHelper = new WordleHelper(false, TEST_WORDS_1);
+
+    // guess OODLE
+    testWordleHelper.gray('o', 0);
+    // problem: at this point, there are no possible words left
+    testWordleHelper.green('o', 1);
+    expect(testWordleHelper.getPossibleWords()).toEqual([
+      'bolts',
+      'comfy',
+    ]);
+  });
+
   test('errors for conflicting letters', () => {
     const testWordleHelper = new WordleHelper(false, TEST_WORDS_1);
 
@@ -81,3 +94,17 @@ describe('@green', () => {
     expect(() => testWordleHelper.green('y', 1)).toThrow('Position 1 is already green with a different letter');
   });
 });
+
+describe('@gray', () => {
+  test.skip('previous green of the same letter', () => {
+    const testWordleHelper = new WordleHelper(false, TEST_WORDS_1);
+    // guess COLOR
+    testWordleHelper.green('o', 1);
+    testWordleHelper.gray('o', 3);
+    // problem: at this point, there are no possible words left
+    expect(testWordleHelper.getPossibleWords()).toEqual([
+      'bolts',
+      'comfy',
+    ]);
+  });
+})
