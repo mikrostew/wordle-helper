@@ -46,9 +46,9 @@ function extractWordLists(scriptContents) {
     wordLists.push(JSON.parse(arrayMatches[0]));
   }
 
-  // there should be two lists
-  if (wordLists.length !== 2) {
-    throw new Error(`Expected 2 word lists, but found ${wordLists.length}!`);
+  // there used to be 2 lists, now there is only one
+  if (wordLists.length !== 1) {
+    throw new Error(`Expected to find 1 word list, but found ${wordLists.length}!`);
   }
   return wordLists;
 }
@@ -64,14 +64,14 @@ function extractWordLists(scriptContents) {
   // pull down the script file, and figure out the word lists
   const scriptContents = await downloadFile(scriptFile);
   const wordLists = extractWordLists(scriptContents);
-  console.log(`Found ${wordLists.length} word lists, with ${wordLists[0].length} words and ${wordLists[1].length} words in them`);
+  console.log(`Found ${wordLists.length} word lists`);
 
   // for debugging - write the lists to files
   //fs.writeFileSync(path.resolve(__dirname, 'debug-list-1.json'), JSON.stringify(wordLists[0], null, 2), 'utf8');
   //fs.writeFileSync(path.resolve(__dirname, 'debug-list-2.json'), JSON.stringify(wordLists[1], null, 2), 'utf8');
 
   // remove any duplicates and sort
-  const uniques = [...new Set(wordLists[0].concat(wordLists[1]))];
+  const uniques = [...new Set(wordLists.flat())];
   const sorted = uniques.sort();
   console.log(`Final words array is ${sorted.length} words`);
 
@@ -81,4 +81,6 @@ function extractWordLists(scriptContents) {
 export const WORDS = ${JSON.stringify(sorted, null, 2)};`;
 
   fs.writeFileSync(OUTPUT_FILE_LOCATION, fileContents, 'utf8');
+
+  // TODO: show any words that were added or removed
 })();
